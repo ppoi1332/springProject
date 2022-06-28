@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="bookDAO">
+	<insert id="insert" parameterType="book">
+		INSERT INTO BOOK VALUES (BOOK_SEQ.nextval, #{imgName}, #{isbn}, #{title}, #{person}, #{publisher}, #{price}, #{cont})
+		<selectKey></selectKey>
+	</insert>
+	
+	<select id="list" resultType="book">
+		SELECT * FROM BOOK ORDER BY "NUMBER" ASC
+	</select>
+	
+	<select id="selectSearch" parameterType="book" resultType="book">
+		SELECT * FROM BOOK WHERE TITLE LIKE '%' || #{search} || '%'
+	</select>
+	
+	<select id="selectByTitle" parameterType="book" resultType="book">
+		SELECT * FROM BOOK WHERE TITLE = #{title}
+	</select>
+	
+	<select id="countBook" resultType="int">
+		SELECT COUNT(*) FROM BOOK
+	</select>
+	
+	<select id="selectBook" resultType="book">
+		SELECT * FROM (SELECT ROWNUM RN, BOOK.* FROM (SELECT * FROM BOOK ORDER BY "NUMBER" ) BOOK)WHERE RN BETWEEN #{start} AND #{end}
+	</select>
+
+</mapper>
